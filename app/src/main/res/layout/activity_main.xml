@@ -34,7 +34,7 @@
     android:layout_height="48dp"
     android:layout_marginStart="8dp"
     android:hint="@string/enter_exercise"
-    android:inputType="number"
+    android:inputType="text"
     android:padding="8dp"
     app:layout_constraintBaseline_toBaselineOf="@+id/ExerciseLabelTextView"
     app:layout_constraintStart_toEndOf="@id/ExerciseLabelTextView" />
@@ -84,6 +84,7 @@
     app:layout_constraintStart_toEndOf="@id/RepLabelTextView" />
 
   <Button
+    android:id="@+id/LogButton"
     android:layout_width="165dp"
     android:layout_height="82dp"
     android:layout_marginTop="16dp"
