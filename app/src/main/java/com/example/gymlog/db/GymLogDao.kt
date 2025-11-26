@@ -13,10 +13,10 @@ interface GymLogDao {
     fun getAll(): List<GymLog>
 
     @Query("SELECT * FROM gym_logs WHERE id = :id LIMIT 1")
-    fun getById(id: Long): GymLog?
+    fun getById(id: Int): GymLog?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(gymLog: GymLog): Long
+    suspend fun insert(gymLog: GymLog)
 
     @Update
     fun update(gymLog: GymLog)

@@ -18,7 +18,7 @@ abstract class GymLogDatabase : RoomDatabase() {
 
 
     companion object {
-        val DATABASE_NAME = "gym_log_db"
+        val DATABASE_NAME = "gym_log.db"
 
         // For Singleton instantiation
         @Volatile private var instance: GymLogDatabase? = null
@@ -29,18 +29,8 @@ abstract class GymLogDatabase : RoomDatabase() {
             }
         }
 
-        // Create and pre-populate the database. See this article for more details:
-        // https://medium.com/google-developers/7-pro-tips-for-room-fbadea4bfbd1#4785
         private fun buildDatabase(context: Context): GymLogDatabase {
-            return Room.databaseBuilder(context, GymLogDatabase::class.java, DATABASE_NAME)
-                .addCallback(
-                    object : RoomDatabase.Callback() {
-                        override fun onCreate(db: SupportSQLiteDatabase) {
-                            super.onCreate(db)
-                        }
-                    }
-                )
-                .build()
+            return Room.databaseBuilder(context, GymLogDatabase::class.java, DATABASE_NAME).build()
         }
     }
 }
