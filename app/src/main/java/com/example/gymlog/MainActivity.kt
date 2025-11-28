@@ -22,6 +22,10 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         repo = GymLogRepository.getInstance(this)
 
+        if (intent.hasExtra(EXTRA_USER_ID)) {
+            loggedInUserId = intent.getIntExtra(EXTRA_USER_ID, -1)
+        }
+
         if (loggedInUserId == -1) {
             val intent = LoginActivity.createIntent(this)
             startActivity(intent)
