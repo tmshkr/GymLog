@@ -1,24 +1,23 @@
 package com.example.gymlog.db
 
-import android.app.Application
-
+import android.content.Context
 import javax.inject.Inject
 import javax.inject.Singleton
 
 
 @Singleton
 class GymLogRepository @Inject constructor(
-    private val gymLogDao: GymLogDao,
-    private val userDao: UserDao
+    context: Context
 ) {
+    val db = GymLogDatabase.getDatabase(context)
 
-    fun getAllGymLogs() = gymLogDao.getAll()
+    fun getAllGymLogs() = db.gymLogDao().getAll()
 
-    fun getGymLogById(logId: Int) = gymLogDao.getById(logId)
+    fun getGymLogById(logId: Int) = db.gymLogDao().getById(logId)
 
-    suspend fun insertGymLog(gymLog: GymLog) = gymLogDao.insert(gymLog)
+    suspend fun insertGymLog(gymLog: GymLog) = db.gymLogDao().insert(gymLog)
 
-    fun getUserById(userId: Int) = userDao.getById(userId)
+    fun getUserById(userId: Int) = db.userDao().getById(userId)
 
     companion object {
 
@@ -26,9 +25,10 @@ class GymLogRepository @Inject constructor(
         @Volatile
         private var instance: GymLogRepository? = null
 
-        fun getInstance(gymLogDao: GymLogDao, userDao: UserDao) =
+
+        fun getInstance(context: Context) =
             instance ?: synchronized(this) {
-                instance ?: GymLogRepository(gymLogDao, userDao).also { instance = it }
+                instance ?: GymLogRepository(context).also { instance = it }
             }
     }
 }
