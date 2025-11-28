@@ -19,6 +19,8 @@ class GymLogRepository @Inject constructor(
 
     fun getUserById(userId: Int) = db.userDao().getById(userId)
 
+    fun getUserByUsername(username: String) = db.userDao().getByUsername(username)
+
     companion object {
 
         // For Singleton instantiation
