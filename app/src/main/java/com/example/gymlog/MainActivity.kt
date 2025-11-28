@@ -39,12 +39,13 @@ class MainActivity : AppCompatActivity() {
 
     private suspend fun insertGymLog() {
         val exerciseName = binding.ExerciseInputEditText.text.toString()
-        val weight = binding.WeightInputEditText.text.toString()
-        val reps = binding.RepInputEditText.text.toString()
+        val weight = binding.WeightInputEditText.text.toString().toInt()
+        val reps = binding.RepInputEditText.text.toString().toInt()
 
         repo.insertGymLog(
             com.example.gymlog.db.GymLog(
                 exerciseName = exerciseName,
+                userId = loggedInUserId,
                 weight = weight,
                 reps = reps,
                 date = System.currentTimeMillis()

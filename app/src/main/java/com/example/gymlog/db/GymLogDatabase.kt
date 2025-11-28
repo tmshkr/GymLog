@@ -1,14 +1,12 @@
 package com.example.gymlog.db
 
 import android.content.Context
+import android.util.Log
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.example.gymlog.utils.hashPassword
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 @Database(
     entities = [User::class, GymLog::class],
@@ -40,18 +38,11 @@ abstract class GymLogDatabase : RoomDatabase() {
                     object : RoomDatabase.Callback() {
                         override fun onCreate(db: SupportSQLiteDatabase) {
                             super.onCreate(db)
-                            CoroutineScope(Dispatchers.IO).launch {
-                                val hash = hashPassword("password123")
-
-                                instance?.userDao()?.insertAll(
-                                    User(
-                                        username = "admin",
-                                        passwordHash = hash.second,
-                                        passwordSalt = hash.first
-                                    )
-                                )
-                            }
-
+                            Log.i("GymLogDatabase", "Seeding initial data...")
+                            // seed initial admin user
+                            val username = "admin"
+                            val hash = hashPassword("password123")
+                            db.execSQL("INSERT INTO users (username, passwordSalt, passwordHash) VALUES ('${username}', '${hash.first}', '${hash.second}')")
                         }
                     }
                 )

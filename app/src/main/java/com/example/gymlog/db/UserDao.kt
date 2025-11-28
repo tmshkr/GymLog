@@ -16,7 +16,7 @@ interface UserDao {
     fun getById(id: Int): User?
 
     @Insert
-    fun insertAll(vararg users: User)
+    fun insert(user: User)
 
     @Delete
     fun delete(user: User)
