@@ -6,10 +6,11 @@
   <string name="enter_exercise">Enter exercise name</string>
   <string name="enter_weight">Enter weight lifted</string>
   <string name="enter_reps">Enter number of reps</string>
-  <string name="log_button">Log</string>
+  <string name="log_button">Log Exercise</string>
   <string name="login_welcome">Welcome to GymLog</string>
   <string name="login_prompt">Please log in to continue</string>
   <string name="username">Username</string>
   <string name="password">Password</string>
   <string name="login_button">Log In</string>
+  <string name="logout_button">Log Out</string>
 </resources>

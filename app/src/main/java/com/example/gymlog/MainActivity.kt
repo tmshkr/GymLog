@@ -61,6 +61,12 @@ class MainActivity : AppCompatActivity() {
                 insertGymLog()
             }
         }
+
+        binding.LogoutButton.setOnClickListener {
+            loggedInUserId = -1
+            val intent = LoginActivity.createIntent(this)
+            startActivity(intent)
+        }
     }
 
     private suspend fun insertGymLog() {
