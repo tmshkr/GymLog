@@ -1,4 +1,4 @@
-package com.example.gymlog.db
+package com.example.gymlog.data
 
 import android.content.Context
 import android.util.Log
@@ -13,7 +13,7 @@ import com.example.gymlog.utils.hashPassword
     version = 1,
     exportSchema = false
 )
-abstract class GymLogDatabase : RoomDatabase() {
+abstract class AppDatabase : RoomDatabase() {
 
     abstract fun userDao(): UserDao
     abstract fun gymLogDao(): GymLogDao
@@ -24,21 +24,21 @@ abstract class GymLogDatabase : RoomDatabase() {
 
         // For Singleton instantiation
         @Volatile
-        private var instance: GymLogDatabase? = null
+        private var instance: AppDatabase? = null
 
-        fun getDatabase(context: Context): GymLogDatabase {
+        fun getDatabase(context: Context): AppDatabase {
             return instance ?: synchronized(this) {
                 instance ?: buildDatabase(context).also { instance = it }
             }
         }
 
-        private fun buildDatabase(context: Context): GymLogDatabase {
-            return Room.databaseBuilder(context, GymLogDatabase::class.java, DATABASE_NAME)
+        private fun buildDatabase(context: Context): AppDatabase {
+            return Room.databaseBuilder(context, AppDatabase::class.java, DATABASE_NAME)
                 .addCallback(
                     object : RoomDatabase.Callback() {
                         override fun onCreate(db: SupportSQLiteDatabase) {
                             super.onCreate(db)
-                            Log.i("GymLogDatabase", "Seeding initial data...")
+                            Log.i("AppDatabase", "Seeding initial data...")
                             // seed initial admin user
                             val username = "admin"
                             val hash = hashPassword("password123")

@@ -1,4 +1,4 @@
-package com.example.gymlog.db
+package com.example.gymlog.data
 
 import androidx.room.Dao
 import androidx.room.Delete

@@ -8,19 +8,19 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.example.gymlog.databinding.ActivityLoginBinding
-import com.example.gymlog.db.GymLogRepository
+import com.example.gymlog.data.AppRepository
 import com.example.gymlog.utils.verifyPassword
 import kotlinx.coroutines.launch
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
-    private lateinit var repo: GymLogRepository
+    private lateinit var repo: AppRepository
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        repo = GymLogRepository.getInstance(this)
+        repo = AppRepository.getInstance(this)
 
         binding.loginButton.setOnClickListener {
             lifecycleScope.launch {

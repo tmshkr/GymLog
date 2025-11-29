@@ -1,4 +1,4 @@
-package com.example.gymlog.db
+package com.example.gymlog.data
 
 import android.content.Context
 import android.util.Log
@@ -7,14 +7,14 @@ import javax.inject.Singleton
 
 
 @Singleton
-class GymLogRepository @Inject constructor(
+class AppRepository @Inject constructor(
     context: Context
 ) {
-    val db = GymLogDatabase.getDatabase(context)
+    val db = AppDatabase.getDatabase(context)
 
-    fun getAllGymLogs() = db.gymLogDao().getAll()
+    suspend fun getAllGymLogs() = db.gymLogDao().getAll()
 
-    fun getGymLogById(logId: Int) = db.gymLogDao().getById(logId)
+    suspend fun getGymLogById(logId: Int) = db.gymLogDao().getById(logId)
 
     suspend fun insertGymLog(gymLog: GymLog) {
         Log.i("GymLogRepository", "insertGymLog: $gymLog")
@@ -30,12 +30,12 @@ class GymLogRepository @Inject constructor(
 
         // For Singleton instantiation
         @Volatile
-        private var instance: GymLogRepository? = null
+        private var instance: AppRepository? = null
 
 
         fun getInstance(context: Context) =
             instance ?: synchronized(this) {
-                instance ?: GymLogRepository(context).also { instance = it }
+                instance ?: AppRepository(context).also { instance = it }
             }
     }
 }

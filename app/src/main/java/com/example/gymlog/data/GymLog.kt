@@ -1,4 +1,4 @@
-package com.example.gymlog.db
+package com.example.gymlog.data
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
