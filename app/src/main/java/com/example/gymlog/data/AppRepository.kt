@@ -16,6 +16,8 @@ class AppRepository @Inject constructor(
 
     suspend fun getGymLogById(logId: Int) = db.gymLogDao().getById(logId)
 
+    fun getGymLogByUserId(userId: Int) = db.gymLogDao().getByUserId(userId)
+
     suspend fun insertGymLog(gymLog: GymLog) {
         Log.i("GymLogRepository", "insertGymLog: $gymLog")
         db.gymLogDao().insert(gymLog)

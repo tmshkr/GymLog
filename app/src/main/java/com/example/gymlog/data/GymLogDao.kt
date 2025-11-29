@@ -6,6 +6,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface GymLogDao {
@@ -13,10 +14,10 @@ interface GymLogDao {
     suspend fun getAll(): List<GymLog>
 
     @Query("SELECT * FROM gym_logs WHERE id = :id LIMIT 1")
-    suspend fun getById(id: Int): GymLog?
+    fun getById(id: Int): GymLog?
 
     @Query("SELECT * FROM gym_logs WHERE userId = :userId ORDER BY date DESC")
-    suspend fun getByUserId(userId: Int): List<GymLog>
+    fun getByUserId(userId: Int): Flow<List<GymLog>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(gymLog: GymLog)
