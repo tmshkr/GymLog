@@ -1,4 +1,4 @@
-package com.example.gymlog.db
+package com.example.gymlog.data
 
 import androidx.room.Dao
 import androidx.room.Delete
@@ -10,20 +10,23 @@ import androidx.room.Update
 @Dao
 interface GymLogDao {
     @Query("SELECT * FROM gym_logs ORDER BY date DESC")
-    fun getAll(): List<GymLog>
+    suspend fun getAll(): List<GymLog>
 
     @Query("SELECT * FROM gym_logs WHERE id = :id LIMIT 1")
-    fun getById(id: Long): GymLog?
+    suspend fun getById(id: Int): GymLog?
+
+    @Query("SELECT * FROM gym_logs WHERE userId = :userId ORDER BY date DESC")
+    suspend fun getByUserId(userId: Int): List<GymLog>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(gymLog: GymLog): Long
+    suspend fun insert(gymLog: GymLog)
 
     @Update
-    fun update(gymLog: GymLog)
+    suspend fun update(gymLog: GymLog)
 
     @Delete
-    fun delete(gymLog: GymLog)
+    suspend fun delete(gymLog: GymLog)
 
     @Query("DELETE FROM gym_logs")
-    fun deleteAll()
+    suspend fun deleteAll()
 }
