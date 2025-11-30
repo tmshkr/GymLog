@@ -60,7 +60,7 @@ class MainActivity : AppCompatActivity() {
         gymLogViewModel = GymLogViewModelFactory(repo, loggedInUserId)
             .create(GymLogViewModel::class.java)
 
-        gymLogViewModel.allGymLogs.observe(this) { gymLogs ->
+        gymLogViewModel.allGymLogsForUser.observe(this) { gymLogs ->
             gymLogs.let { adapter.submitList(gymLogs) }
         }
 
