@@ -20,7 +20,7 @@ class GymLogAdapter : ListAdapter<GymLog, GymLogAdapter.GymLogViewHolder>(GYM_LO
 
     override fun onBindViewHolder(holder: GymLogViewHolder, position: Int) {
         val current = getItem(position)
-        holder.bind(current.exerciseName)
+        holder.bind("${current.exerciseName} - ${current.weight} lbs x ${current.reps} reps")
     }
 
     class GymLogViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -46,8 +46,7 @@ class GymLogAdapter : ListAdapter<GymLog, GymLogAdapter.GymLogViewHolder>(GYM_LO
             }
 
             override fun areContentsTheSame(oldItem: GymLog, newItem: GymLog): Boolean {
-                //TODO: use udatedAt
-                return oldItem.id == newItem.id
+                return oldItem.updatedAt == newItem.updatedAt
             }
         }
     }
