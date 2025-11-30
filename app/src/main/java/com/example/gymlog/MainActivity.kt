@@ -2,9 +2,11 @@ package com.example.gymlog
 
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.edit
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -21,15 +23,27 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var gymLogViewModel: GymLogViewModel
 
+    private lateinit var sharedPref: SharedPreferences
+
+
     private var loggedInUserId = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        sharedPref =
+            getSharedPreferences("GymLogPrefs", Context.MODE_PRIVATE)
 
-        if (intent.hasExtra(EXTRA_USER_ID)) {
-            loggedInUserId = intent.getIntExtra(EXTRA_USER_ID, -1)
+
+        if (intent.hasExtra(USER_ID)) {
+            loggedInUserId = intent.getIntExtra(USER_ID, -1)
+            // save to shared preferences
+            sharedPref.edit {
+                putInt(USER_ID, loggedInUserId)
+            }
+        } else if (sharedPref.contains(USER_ID)) {
+            loggedInUserId = sharedPref.getInt(USER_ID, -1)
         }
 
         if (loggedInUserId == -1) {
@@ -47,10 +61,6 @@ class MainActivity : AppCompatActivity() {
             .create(GymLogViewModel::class.java)
 
         gymLogViewModel.allGymLogs.observe(this) { gymLogs ->
-//            gymLogs.forEach {
-//                println("GymLog: ${it.exerciseName}, Reps: ${it.reps}, Weight: ${it.weight}")
-//            }
-
             gymLogs.let { adapter.submitList(gymLogs) }
         }
 
@@ -63,10 +73,17 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.LogoutButton.setOnClickListener {
-            loggedInUserId = -1
-            val intent = LoginActivity.createIntent(this)
-            startActivity(intent)
+            logout()
         }
+    }
+
+    private fun logout() {
+        loggedInUserId = -1
+        sharedPref.edit {
+            remove(USER_ID)
+        }
+        val intent = LoginActivity.createIntent(this)
+        startActivity(intent)
     }
 
     private suspend fun insertGymLog() {
@@ -89,10 +106,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     companion object {
-        val EXTRA_USER_ID = "com.example.gymlog.USER_ID"
+        val USER_ID = "com.example.gymlog.USER_ID"
         fun createIntent(context: Context, userId: Int): Intent {
             val intent = Intent(context, MainActivity::class.java)
-            intent.putExtra(EXTRA_USER_ID, userId)
+            intent.putExtra(USER_ID, userId)
             return intent
         }
     }
