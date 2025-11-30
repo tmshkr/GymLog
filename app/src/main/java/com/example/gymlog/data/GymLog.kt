@@ -29,5 +29,9 @@ data class GymLog(
 
     val reps: Int,
 
-    val date: Long
+    val date: Long,
+
+    val createdAt: Long = System.currentTimeMillis(),
+
+    val updatedAt: Long = System.currentTimeMillis()
 )
