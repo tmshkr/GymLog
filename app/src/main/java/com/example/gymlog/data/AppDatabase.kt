@@ -39,10 +39,17 @@ abstract class AppDatabase : RoomDatabase() {
                         override fun onCreate(db: SupportSQLiteDatabase) {
                             super.onCreate(db)
                             Log.i("AppDatabase", "Seeding initial data...")
-                            // seed initial admin user
-                            val username = "admin"
-                            val hash = hashPassword("password123")
-                            db.execSQL("INSERT INTO users (username, passwordSalt, passwordHash) VALUES ('${username}', '${hash.first}', '${hash.second}')")
+                            // seed initial users
+                            val users = listOf(
+                                Pair("admin", "adminpassword"),
+                                Pair("user2", "user2password"),
+                                Pair("user3", "user3password")
+                            )
+
+                            for ((username, password) in users) {
+                                val hash = hashPassword(password)
+                                db.execSQL("INSERT INTO users (username, passwordSalt, passwordHash) VALUES ('${username}', '${hash.first}', '${hash.second}')")
+                            }
                         }
                     }
                 )

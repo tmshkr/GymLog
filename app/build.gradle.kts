@@ -54,6 +54,10 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
 
     implementation("javax.inject:javax.inject:1")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$rootProject.lifecycleVersion")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:$rootProject.lifecycleVersion")
+    implementation("androidx.lifecycle:lifecycle-common-java8:$rootProject.lifecycleVersion")
+
 
     val room_version = "2.8.4"
 
